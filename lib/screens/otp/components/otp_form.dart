@@ -4,7 +4,6 @@ import 'package:flutter_shop/api/auth.dart';
 import 'package:flutter_shop/components/default_button.dart';
 import 'package:flutter_shop/size_config.dart';
 import 'package:flutter_shop/helper/keyboard.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_shop/screens/login_success/login_success_screen.dart';
 
 import '../../../constants.dart';
@@ -19,132 +18,77 @@ class OtpForm extends StatefulWidget {
 }
 
 class _OtpFormState extends State<OtpForm> {
-  String otp_1;
-  String otp_2;
-  String otp_3;
-  String otp_4;
-  FocusNode pin2FocusNode;
-  FocusNode pin3FocusNode;
-  FocusNode pin4FocusNode;
+  final _formKey = GlobalKey<FormState>();
+  var code;
+  final List<String> errors = [];
+  final codeController = new TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    pin2FocusNode = FocusNode();
-    pin3FocusNode = FocusNode();
-    pin4FocusNode = FocusNode();
+  void addError({String error}) {
+    if (!errors.contains(error))
+      setState(() {
+        errors.add(error);
+      });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    pin2FocusNode.dispose();
-    pin3FocusNode.dispose();
-    pin4FocusNode.dispose();
-  }
-
-  void nextField(String value, FocusNode focusNode) {
-    if (value.length == 1) {
-      focusNode.requestFocus();
-    }
+  void removeError({String error}) {
+    if (errors.contains(error))
+      setState(() {
+        errors.remove(error);
+      });
   }
 
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         children: [
-          SizedBox(height: SizeConfig.screenHeight * 0.15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: getProportionateScreenWidth(60),
-                child: TextFormField(
-                  autofocus: true,
-                  obscureText: true,
-                  onSaved: (newValue) => otp_1 = newValue,
-                  style: TextStyle(fontSize: 24),
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  decoration: otpInputDecoration,
-                  onChanged: (value) {
-                    nextField(value, pin2FocusNode);
-                  },
-                ),
-              ),
-              SizedBox(
-                width: getProportionateScreenWidth(60),
-                child: TextFormField(
-                  focusNode: pin2FocusNode,
-                  obscureText: true,
-                  onSaved: (newValue) => otp_2 = newValue,
-                  style: TextStyle(fontSize: 24),
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  decoration: otpInputDecoration,
-                  onChanged: (value) => nextField(value, pin3FocusNode),
-                ),
-              ),
-              SizedBox(
-                width: getProportionateScreenWidth(60),
-                child: TextFormField(
-                  focusNode: pin3FocusNode,
-                  obscureText: true,
-                  onSaved: (newValue) => otp_3 = newValue,
-                  style: TextStyle(fontSize: 24),
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  decoration: otpInputDecoration,
-                  onChanged: (value) => nextField(value, pin4FocusNode),
-                ),
-              ),
-              SizedBox(
-                width: getProportionateScreenWidth(60),
-                child: TextFormField(
-                  focusNode: pin4FocusNode,
-                  obscureText: true,
-                  onSaved: (newValue) => otp_4 = newValue,
-                  style: TextStyle(fontSize: 24),
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  decoration: otpInputDecoration,
-                  onChanged: (value) {
-                    if (value.length == 1) {
-                      pin4FocusNode.unfocus();
-                      // Then you need to check is the code is correct or not
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: SizeConfig.screenHeight * 0.15),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildCodeFormField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
           DefaultButton(
             text: "Continue",
             press: () {
+              // if all are valid then go to success screen
               _handleOtp();
             },
-          )
+          ),
         ],
       ),
     );
   }
 
   void _handleOtp() async {
-    String code = otp_1 + otp_2 + otp_3 + otp_4;
+    code = codeController.text;
     var data = {'code': code};
 
     var res = await CallApi().otp(data, 'auth/2fa/login');
     var body = json.decode(res.body);
 
     if (body['success']) {
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.setString('token', body['jwtToken']);
-      localStorage.setString('user', json.encode(body['user']));
-
       KeyboardUtil.hideKeyboard(context);
       Navigator.pushNamed(context, LoginSuccessScreen.routeName);
     }
+  }
+
+  TextFormField buildCodeFormField() {
+    return TextFormField(
+      obscureText: true,
+      onSaved: (newValue) => code = newValue,
+      controller: codeController,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kCodeNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: kCodeNullError);
+          return "";
+        }
+        return null;
+      },
+    );
   }
 }

@@ -6,9 +6,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 
 class CallApi {
-  Future<String> getToken() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('jwtToken');
+  var token;
+
+  _getToken() async {
+    final localStorage = await SharedPreferences.getInstance();
+    token = localStorage.getString('token');
   }
 
   login(data, apiUrl) async {
@@ -40,9 +42,10 @@ class CallApi {
     );
   }
 
-  otp(apiUrl, data) async {
+  otp(data, apiUrl) async {
     var fullUrl = baseUrl + apiUrl;
-
+    await _getToken();
+    print('$data');
     return await http.post(
       fullUrl,
       body: jsonEncode(data),
@@ -53,6 +56,6 @@ class CallApi {
   setHeaders() => {
         'Content-type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $getToken()',
+        'Authorization': 'Bearer $token',
       };
 }

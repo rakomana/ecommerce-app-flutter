@@ -22,7 +22,7 @@ final headingStyle = TextStyle(
 
 const defaultDuration = Duration(milliseconds: 250);
 // Form Error
-final String baseUrl = 'https://2fdce69833f0.ngrok.io/api/';
+final String baseUrl = 'https://748d20d376d6.ngrok.io/api/';
 final RegExp emailValidatorRegExp =
     RegExp(r"^[a-zA-Z0-9.]+@ ,                   m,l.;"
         r""
@@ -36,6 +36,7 @@ const String kMatchPassError = "Passwords don't match";
 const String kNameNullError = "Please Enter your name";
 const String kPhoneNumberNullError = "Please Enter your phone number";
 const String kAddressNullError = "Please Enter your address";
+const String kCodeNullError = "Please Enter your code";
 
 final otpInputDecoration = InputDecoration(
   contentPadding:

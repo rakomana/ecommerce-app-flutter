@@ -95,9 +95,10 @@ class _SignFormState extends State<SignForm> {
     var body = json.decode(res.body);
 
     if (body['success']) {
+      var data = body['data'];
+      var token = data['jwtToken'];
       SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.setString('token', body['jwtToken']);
-      localStorage.setString('user', json.encode(body['user']));
+      localStorage.setString('token', token);
 
       KeyboardUtil.hideKeyboard(context);
       Navigator.pushNamed(context, OtpScreen.routeName);
