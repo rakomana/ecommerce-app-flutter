@@ -4,6 +4,7 @@ import 'package:flutter_shop/api/auth.dart';
 import 'package:flutter_shop/components/default_button.dart';
 import 'package:flutter_shop/size_config.dart';
 import 'package:flutter_shop/helper/keyboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_shop/screens/login_success/login_success_screen.dart';
 
 import '../../../constants.dart';
@@ -66,6 +67,11 @@ class _OtpFormState extends State<OtpForm> {
     var body = json.decode(res.body);
 
     if (body['success']) {
+      var data = body['data'];
+      var token = data['jwtToken'];
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.setString('token', token);
+      print('$token');
       KeyboardUtil.hideKeyboard(context);
       Navigator.pushNamed(context, LoginSuccessScreen.routeName);
     }
