@@ -22,12 +22,14 @@ final headingStyle = TextStyle(
 
 const defaultDuration = Duration(milliseconds: 250);
 // Form Error
-final String baseUrl = 'https://35dcd549883f.ngrok.io/api/';
+final String baseUrl = 'https://c986318c7e91.ngrok.io/api/';
+final String imageNetwork =
+    'https://c986318c7e91.ngrok.io/uploads/shop/products/';
 final RegExp emailValidatorRegExp =
     RegExp(r"^[a-zA-Z0-9.]+@ ,                   m,l.;"
         r""
         r""
-        r"[a-zA-Z0-9]+\.[a-zA-Z]+");
+        r"[a-zA-Z0-9]+\.0[a-zA-Z]+");
 const String kEmailNullError = "Please Enter your email";
 const String kInvalidEmailError = "Please Enter Valid Email";
 const String kPassNullError = "Please Enter your password";

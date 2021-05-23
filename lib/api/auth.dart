@@ -45,7 +45,7 @@ class CallApi {
   otp(data, apiUrl) async {
     var fullUrl = baseUrl + apiUrl;
     await _getToken();
-    print('$data');
+    //print('$data');
     return await http.post(
       fullUrl,
       body: jsonEncode(data),

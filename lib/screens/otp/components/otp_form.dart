@@ -71,7 +71,7 @@ class _OtpFormState extends State<OtpForm> {
       var token = data['jwtToken'];
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', token);
-      print('$token');
+      //print('$token');
       KeyboardUtil.hideKeyboard(context);
       Navigator.pushNamed(context, LoginSuccessScreen.routeName);
     }

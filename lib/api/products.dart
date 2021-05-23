@@ -1,5 +1,4 @@
 import 'package:http/http.dart' as http;
-import 'package:flutter_shop/api/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
