@@ -31,4 +31,3 @@ class Product {
   final List<Color> colors;
 }
 
-List<Product> demoProducts = [];

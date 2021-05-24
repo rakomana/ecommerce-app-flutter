@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_shop/components/product_card.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-//import 'package:flutter_svg/flutter_svg.dart';
-//import 'package:flutter_shop/components/product_card.dart';
 import 'package:flutter_shop/models/Product.dart';
 import 'package:flutter_shop/api/products.dart';
 
@@ -66,87 +63,92 @@ class PopularProducts extends StatelessWidget {
                 ),
               );
             } else
-              return StaggeredGridView.countBuilder(
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
-                  itemCount: snapshot.data.length,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  itemBuilder: (context, index) {
-                        return Card(
-                          elevation: 2,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  children: [
-                                    Container(
-                                      height: 180,
-                                      width: double.infinity,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      child: Image.network(
-                                        imageNetwork + snapshot.data[index].images,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Positioned(
-                                      right: 0,
-                                      child: CircleAvatar(
-                                            backgroundColor: Colors.white,
-                                            child: IconButton(
-                                              icon: Icon(Icons.favorite_border),
-                                              onPressed: () {
-                                              },
-                                            ),
-                                          ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  snapshot.data[index].title,
-                                  maxLines: 2,
-                                  style:
-                                      TextStyle(fontFamily: 'avenir', fontWeight: FontWeight.w800),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                SizedBox(height: 8),
-                                if (snapshot.data[index].rating != null)
+              return Expanded(
+                child: StaggeredGridView.countBuilder(
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    itemCount: snapshot.data.length,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        elevation: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Stack(
+                                children: [
                                   Container(
+                                    height: 180,
+                                    width: double.infinity,
+                                    clipBehavior: Clip.antiAlias,
                                     decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(4),
                                     ),
-                                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          snapshot.data[index].rating.toString(),
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          size: 16,
-                                          color: Colors.white,
-                                        ),
-                                      ],
+                                    child: Image.network(
+                                      imageNetwork +
+                                          snapshot.data[index].images,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                SizedBox(height: 8),
-                                Text('\R${snapshot.data[index].newPrice}',
-                                    style: TextStyle(fontSize: 32, fontFamily: 'avenir')),
-                              ],
-                            ),
+                                  Positioned(
+                                    right: 0,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      child: IconButton(
+                                        icon: Icon(Icons.favorite_border),
+                                        onPressed: () {},
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                snapshot.data[index].title,
+                                maxLines: 2,
+                                style: TextStyle(
+                                    fontFamily: 'avenir',
+                                    fontWeight: FontWeight.w800),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(height: 8),
+                              if (snapshot.data[index].rating != null)
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 4, vertical: 2),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        snapshot.data[index].rating.toString(),
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      Icon(
+                                        Icons.star,
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              SizedBox(height: 8),
+                              Text('\R${snapshot.data[index].newPrice}',
+                                  style: TextStyle(
+                                      fontSize: 32, fontFamily: 'avenir')),
+                            ],
                           ),
-                        );
-                  },
-                  staggeredTileBuilder: (index) => StaggeredTile.fit(1));
+                        ),
+                      );
+                    },
+                    staggeredTileBuilder: (index) => StaggeredTile.fit(1)),
+              );
             /*
               return ListView.builder(
                   shrinkWrap: true,

@@ -23,6 +23,17 @@ class CallApiProduct {
 
   product(apiUrl) async {
     var fullUrl = baseUrl + apiUrl;
+    await getToken();
+
+    return await http.get(
+      fullUrl,
+      headers: setHeaders(),
+    );
+  }
+
+  cart(apiUrl) async {
+    var fullUrl = baseUrl + apiUrl;
+    await getToken();
 
     return await http.get(
       fullUrl,
