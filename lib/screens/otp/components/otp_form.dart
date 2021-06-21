@@ -21,6 +21,7 @@ class OtpForm extends StatefulWidget {
 class _OtpFormState extends State<OtpForm> {
   final _formKey = GlobalKey<FormState>();
   var code;
+  bool isLoading = true;
   final List<String> errors = [];
   final codeController = new TextEditingController();
 
@@ -47,13 +48,21 @@ class _OtpFormState extends State<OtpForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           buildCodeFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          DefaultButton(
-            text: "Continue",
-            press: () {
-              // if all are valid then go to success screen
-              _handleOtp();
-            },
-          ),
+          isLoading
+              ? DefaultButton(
+                  text: "Continue",
+                  press: () {
+                    // if all are valid then go to success screen
+                    setState(() {
+                      isLoading = false;
+                    });
+
+                    _handleOtp();
+                  },
+                )
+              : Center(
+                  child: CircularProgressIndicator(),
+                ),
         ],
       ),
     );

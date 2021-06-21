@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/screens/account/edit_profile.dart';
+import 'package:flutter_shop/screens/cart/cart_screen.dart';
 
 import 'profile_menu.dart';
 import 'profile_pic.dart';
@@ -15,7 +17,26 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "My Account",
             icon: "assets/icons/User Icon.svg",
-            press: () => {},
+            press: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditProfilePage(),
+                ),
+              )
+            },
+          ),
+          ProfileMenu(
+            text: "Orders",
+            icon: "assets/icons/Cart Icon.svg",
+            press: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartScreen(),
+                ),
+              )
+            },
           ),
           ProfileMenu(
             text: "Notifications",

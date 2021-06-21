@@ -1,26 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter_shop/constants.dart';
 
-import '../../models/Product.dart';
 import 'components/body.dart';
-import 'components/custom_app_bar.dart';
 
 class DetailsScreen extends StatelessWidget {
   static String routeName = "/details";
+  final product;
 
+  const DetailsScreen({Key key, this.product}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final ProductDetailsArguments agrs =
-        ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      backgroundColor: Color(0xFFF5F6F9),
-      appBar: CustomAppBar(rating: agrs.product.rating),
-      body: Body(product: agrs.product),
+      backgroundColor: kPrimaryColor,
+      appBar: buildAppBar(context),
+      body: Body(
+        product: product,
+      ),
     );
   }
-}
 
-class ProductDetailsArguments {
-  final Product product;
-
-  ProductDetailsArguments({@required this.product});
+  AppBar buildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: kSecondaryColor,
+      elevation: 0,
+      leading: IconButton(
+        padding: EdgeInsets.only(left: kDefaultPadding),
+        icon: SvgPicture.asset("assets/icons/back.svg"),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      centerTitle: false,
+      title: Text(
+        'Back'.toUpperCase(),
+        style: Theme.of(context).textTheme.bodyText2,
+      ),
+      actions: <Widget>[
+        IconButton(
+          icon: SvgPicture.asset('assets/icons/cart_with_item.svg'),
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
 }

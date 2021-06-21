@@ -11,6 +11,8 @@ const kPrimaryGradientColor = LinearGradient(
 const kSecondaryColor = Color(0xFF979797);
 const kTextColor = Color(0xFF757575);
 
+const kDefaultPadding = 20.0;
+
 const kAnimationDuration = Duration(milliseconds: 200);
 
 final headingStyle = TextStyle(
@@ -22,9 +24,9 @@ final headingStyle = TextStyle(
 
 const defaultDuration = Duration(milliseconds: 250);
 // Form Error
-final String baseUrl = 'https://96bb02677cea.ngrok.io/api/';
+final String baseUrl = 'https://98be5ecdc051.ngrok.io/api/';
 final String imageNetwork =
-    'https://96bb02677cea.ngrok.io/uploads/shop/products/';
+    'https://98be5ecdc051.ngrok.io/uploads/shop/products/';
 final RegExp emailValidatorRegExp =
     RegExp(r"^[a-zA-Z0-9.]+@ ,                   m,l.;"
         r""

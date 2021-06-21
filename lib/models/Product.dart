@@ -22,7 +22,6 @@ class Product {
   String oldPrice;
   String newPrice;
   String quantity;
-  //String image;
   String images;
   String status;
   String name;

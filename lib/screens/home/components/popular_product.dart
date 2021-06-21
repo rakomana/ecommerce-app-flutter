@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_shop/screens/details/details_screen.dart';
 import 'package:flutter_shop/models/Product.dart';
 import 'package:flutter_shop/api/products.dart';
 
@@ -87,10 +88,22 @@ class PopularProducts extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(4),
                                     ),
-                                    child: Image.network(
-                                      imageNetwork +
-                                          snapshot.data[index].images,
-                                      fit: BoxFit.cover,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DetailsScreen(
+                                              product: snapshot.data[index],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Image.network(
+                                        imageNetwork +
+                                            snapshot.data[index].images,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                   Positioned(
@@ -149,111 +162,9 @@ class PopularProducts extends StatelessWidget {
                     },
                     staggeredTileBuilder: (index) => StaggeredTile.fit(1)),
               );
-            /*
-              return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, i) {
-                    return Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AspectRatio(
-                            aspectRatio: 1.02,
-                            child: Container(
-                              padding: EdgeInsets.all(
-                                  getProportionateScreenWidth(20)),
-                              decoration: BoxDecoration(
-                                color: kSecondaryColor.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Hero(
-                                tag: snapshot.data[i].id.toString(),
-                                child: Image.network(
-                                    imageNetwork + snapshot.data[i].images),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            snapshot.data[i].title,
-                            style: TextStyle(color: Colors.black),
-                            maxLines: 2,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "\R${snapshot.data[i].newPrice}",
-                                style: TextStyle(
-                                  fontSize: getProportionateScreenWidth(18),
-                                  fontWeight: FontWeight.w600,
-                                  color: kPrimaryColor,
-                                ),
-                              ),
-                              InkWell(
-                                borderRadius: BorderRadius.circular(50),
-                                onTap: () {},
-                                child: Container(
-                                  padding: EdgeInsets.all(
-                                      getProportionateScreenWidth(8)),
-                                  height: getProportionateScreenWidth(28),
-                                  width: getProportionateScreenWidth(28),
-                                  decoration: BoxDecoration(
-                                    color: snapshot.data[i].isFavourite
-                                        ? kPrimaryColor.withOpacity(0.15)
-                                        : kSecondaryColor.withOpacity(0.1),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: SvgPicture.asset(
-                                    "assets/icons/Heart Icon_2.svg",
-                                    color: snapshot.data[i].isFavourite
-                                        ? Color(0xFFFF4848)
-                                        : Color(0xFFDBDEE4),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    );
-                  });*/
           },
         ),
       ),
     ]);
-    /*return Column(
-      children: [
-        Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: SectionTitle(
-              title: "Popular Products",
-              press: () {
-                getProducts();
-              }),
-        ),
-        SizedBox(height: getProportionateScreenWidth(20)),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              ...List.generate(
-                demoProducts.length,
-                (index) {
-                  if (demoProducts[index].isPopular)
-                    return ProductCard(product: demoProducts[index]);
-
-                  return SizedBox
-                      .shrink(); // here by default width and height is 0
-                },
-              ),
-              SizedBox(width: getProportionateScreenWidth(20)),
-            ],
-          ),
-        )
-      ],
-    );*/
   }
 }

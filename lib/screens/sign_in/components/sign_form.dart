@@ -22,6 +22,7 @@ class _SignFormState extends State<SignForm> {
   String email;
   String password;
   bool remember = false;
+  bool isLoading = true;
   final List<String> errors = [];
 
   void addError({String error}) {
@@ -73,16 +74,23 @@ class _SignFormState extends State<SignForm> {
           ),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
-          DefaultButton(
-            text: "Continue",
-            press: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                // if all are valid then go to success screen
-                _handleLogin();
-              }
-            },
-          ),
+          isLoading
+              ? DefaultButton(
+                  text: "Continue",
+                  press: () {
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
+                      // if all are valid then go to success screen
+                      setState(() {
+                        isLoading = false;
+                      });
+                      _handleLogin();
+                    }
+                  },
+                )
+              : Center(
+                  child: CircularProgressIndicator(),
+                ),
         ],
       ),
     );

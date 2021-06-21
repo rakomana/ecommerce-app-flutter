@@ -1,58 +1,80 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/components/default_button.dart';
-import 'package:flutter_shop/models/Product.dart';
-import 'package:flutter_shop/size_config.dart';
+import 'package:flutter_shop/constants.dart';
 
-import 'color_dots.dart';
-import 'product_description.dart';
-import 'top_rounded_container.dart';
-import 'product_images.dart';
+import 'chat_and_add_to_cart.dart';
+import 'list_of_colors.dart';
+import 'product_image.dart';
 
 class Body extends StatelessWidget {
-  final Product product;
+  final product;
 
-  const Body({Key key, @required this.product}) : super(key: key);
-
+  const Body({Key key, this.product}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        ProductImages(product: product),
-        TopRoundedContainer(
-          color: Colors.white,
-          child: Column(
-            children: [
-              ProductDescription(
-                product: product,
-                pressOnSeeMore: () {},
-              ),
-              TopRoundedContainer(
-                color: Color(0xFFF6F7F9),
-                child: Column(
-                  children: [
-                    ColorDots(product: product),
-                    TopRoundedContainer(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: SizeConfig.screenWidth * 0.15,
-                          right: SizeConfig.screenWidth * 0.15,
-                          bottom: getProportionateScreenWidth(40),
-                          top: getProportionateScreenWidth(15),
-                        ),
-                        child: DefaultButton(
-                          text: "Add To Cart",
-                          press: () {},
-                        ),
-                      ),
-                    ),
-                  ],
+    // it provide us total height and width
+    Size size = MediaQuery.of(context).size;
+    // it enable scrolling on small devices
+    return SafeArea(
+      bottom: false,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+              decoration: BoxDecoration(
+                color: kSecondaryColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(50),
+                  bottomRight: Radius.circular(50),
                 ),
               ),
-            ],
-          ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Center(
+                    child: Hero(
+                      tag: '${product.id}',
+                      child: ProductPoster(
+                        size: size,
+                        image: imageNetwork + product.images,
+                      ),
+                    ),
+                  ),
+                  ListOfColors(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: kDefaultPadding / 2),
+                    child: Text(
+                      product.title,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ),
+                  Text(
+                    '\R${product.newPrice}',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
+                    child: Text(
+                      product.description,
+                      style: TextStyle(color: kTextColor),
+                    ),
+                  ),
+                  SizedBox(height: kDefaultPadding),
+                ],
+              ),
+            ),
+            ChatAndAddToCart(),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

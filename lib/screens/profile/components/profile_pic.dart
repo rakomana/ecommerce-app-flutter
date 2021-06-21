@@ -16,7 +16,7 @@ class ProfilePic extends StatelessWidget {
         overflow: Overflow.visible,
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage("assets/images/Profile Image.png"),
+            backgroundImage: AssetImage("assets/images/profile.jpg"),
           ),
           Positioned(
             right: -16,
@@ -30,10 +30,53 @@ class ProfilePic extends StatelessWidget {
                   side: BorderSide(color: Colors.white),
                 ),
                 color: Color(0xFFF5F6F9),
-                onPressed: () {},
-                child: SvgPicture.asset("assets/icons/Camera Icon.svg"),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: ((builder) => bottomSheet()),
+                  );
+                },
+                child: SvgPicture.asset(""),
               ),
             ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget bottomSheet() {
+    return Container(
+      height: 100.0,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Choose profile photo",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              FlatButton.icon(
+                onPressed: () {},
+                icon: Icon(Icons.camera),
+                label: Text("Camera"),
+              ),
+              FlatButton.icon(
+                onPressed: () {},
+                icon: Icon(Icons.image),
+                label: Text("Gallery"),
+              ),
+            ],
           )
         ],
       ),
