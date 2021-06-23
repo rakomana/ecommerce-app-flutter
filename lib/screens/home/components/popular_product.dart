@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_shop/screens/details/details_screen.dart';
@@ -10,7 +11,9 @@ import 'section_title.dart';
 import 'dart:convert';
 
 class PopularProducts extends StatelessWidget {
-  Future getProducts() async {
+  Future getProducts(BuildContext context) async {
+    await checkInternetAccess(context);
+
     var res = await CallApiProduct().products('products');
     var body = json.decode(res.body);
     var item = body['items'];
@@ -55,7 +58,7 @@ class PopularProducts extends StatelessWidget {
       SizedBox(height: getProportionateScreenWidth(20)),
       Card(
         child: FutureBuilder(
-          future: getProducts(),
+          future: getProducts(context),
           builder: (context, snapshot) {
             if (snapshot.data == null) {
               return Container(
@@ -166,5 +169,41 @@ class PopularProducts extends StatelessWidget {
         ),
       ),
     ]);
+  }
+
+  void showMyDialog(BuildContext context) {
+    showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: const Text(
+            'check your internet connection',
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  //check internet connection
+  checkInternetAccess(BuildContext context) async {
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+      }
+    } on SocketException catch (_) {
+      //display no internet connection dialog
+      print('disconnected');
+      //
+       showMyDialog(context);
+    }
   }
 }

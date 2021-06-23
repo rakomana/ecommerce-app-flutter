@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/helper/keyboard.dart';
 import 'package:flutter_shop/components/custom_surfix_icon.dart';
 import 'package:flutter_shop/components/default_button.dart';
 import 'package:flutter_shop/components/form_error.dart';
 import 'package:flutter_shop/components/no_account_text.dart';
 import 'package:flutter_shop/size_config.dart';
+import 'package:flutter_shop/api/password.dart';
+import 'package:flutter_shop/screens/sign_in/sign_in_screen.dart';
 
 import '../../../constants.dart';
 
@@ -48,8 +53,28 @@ class ForgotPassForm extends StatefulWidget {
 
 class _ForgotPassFormState extends State<ForgotPassForm> {
   final _formKey = GlobalKey<FormState>();
+
   List<String> errors = [];
-  String email;
+
+  var email;
+  bool isLoading = true;
+
+  final emailController = new TextEditingController();
+
+  void addError({String error}) {
+    if (!errors.contains(error))
+      setState(() {
+        errors.add(error);
+      });
+  }
+
+  void removeError({String error}) {
+    if (errors.contains(error))
+      setState(() {
+        errors.remove(error);
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -59,36 +84,24 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
           TextFormField(
             keyboardType: TextInputType.emailAddress,
             onSaved: (newValue) => email = newValue,
+            controller: emailController,
             onChanged: (value) {
-              if (value.isNotEmpty && errors.contains(kEmailNullError)) {
-                setState(() {
-                  errors.remove(kEmailNullError);
-                });
-              } else if (emailValidatorRegExp.hasMatch(value) &&
-                  errors.contains(kInvalidEmailError)) {
-                setState(() {
-                  errors.remove(kInvalidEmailError);
-                });
+              if (value.isNotEmpty) {
+                removeError(error: kEmailNullError);
               }
               return null;
             },
             validator: (value) {
-              if (value.isEmpty && !errors.contains(kEmailNullError)) {
-                setState(() {
-                  errors.add(kEmailNullError);
-                });
-              } else if (!emailValidatorRegExp.hasMatch(value) &&
-                  !errors.contains(kInvalidEmailError)) {
-                setState(() {
-                  errors.add(kInvalidEmailError);
-                });
+              if (value.isEmpty) {
+                addError(error: kEmailNullError);
+                return "";
               }
               return null;
             },
             decoration: InputDecoration(
               labelText: "Email",
               hintText: "Enter your email",
-              // If  you are using latest version of flutter then lable text and hint text shown like this
+              // If  you are using latest version of flutter then label text and hint text shown like this
               // if you r using flutter less then 1.20.* then maybe this is not working properly
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
@@ -97,18 +110,58 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           FormError(errors: errors),
           SizedBox(height: SizeConfig.screenHeight * 0.1),
-          DefaultButton(
-            text: "Continue",
-            press: () {
-              if (_formKey.currentState.validate()) {
-                // Do what you want to do
-              }
-            },
-          ),
+          isLoading
+              ? DefaultButton(
+                  text: "Continue",
+                  press: () {
+                    if (_formKey.currentState.validate()) {
+                      setState(() {
+                        isLoading = false;
+                      });
+                      // call forgot password function to send password reset link
+                      _handleForgotPassword();
+                    }
+                  },
+                )
+              : Center(
+                  child: CircularProgressIndicator(),
+                ),
           SizedBox(height: SizeConfig.screenHeight * 0.1),
           NoAccountText(),
         ],
       ),
     );
+  }
+
+  _handleForgotPassword() async {
+    email = emailController.text;
+    var data = {'email': email};
+
+    var res =
+        await CallApiForgotPassword().forgotPassword(data, 'password/email');
+    var body = json.decode(res.body);
+    print(body);
+
+    if (body['message'] == 'passwords.sent') {
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Success'),
+          content: const Text('password reset link sent succesfully'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pushNamed(context, SignInScreen.routeName),
+              child: const Text('Go to Login'),
+            ),
+          ],
+        ),
+      );
+
+      KeyboardUtil.hideKeyboard(context);
+    }
   }
 }

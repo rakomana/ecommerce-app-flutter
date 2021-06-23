@@ -12,7 +12,6 @@ import 'package:flutter_shop/api/auth.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
-
 class SignUpForm extends StatefulWidget {
   @override
   _SignUpFormState createState() => _SignUpFormState();
@@ -24,6 +23,7 @@ class _SignUpFormState extends State<SignUpForm> {
   String email;
   String password;
   String conform_password;
+  bool isLoading = true;
   bool remember = false;
   final List<String> errors = [];
 
@@ -56,28 +56,36 @@ class _SignUpFormState extends State<SignUpForm> {
           buildConformPassFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
-          DefaultButton(
-            text: "Continue",
-            press: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                // if all are valid then go to success screen
-                _handleRegister();
-              }
-            },
-          ),
+          isLoading
+              ? DefaultButton(
+                  text: "Continue",
+                  press: () {
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
+                      setState(() {
+                        isLoading = false;
+                      });
+                      // if all are valid then go to success screen
+                      _handleRegister();
+                    }
+                  },
+                )
+              : Center(
+                  child: CircularProgressIndicator(),
+                ),
         ],
       ),
     );
   }
 
   void _handleRegister() async {
+    
     var data = {'name': name, 'email': email, 'password': password};
 
     var res = await CallApi().register(data, 'auth/register');
     var body = json.decode(res.body);
 
-    if(body['success']){
+    if (body['success']) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', body['jwtToken']);
       localStorage.setString('user', json.encode(body['user']));

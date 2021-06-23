@@ -24,9 +24,9 @@ final headingStyle = TextStyle(
 
 const defaultDuration = Duration(milliseconds: 250);
 // Form Error
-final String baseUrl = 'https://98be5ecdc051.ngrok.io/api/';
+final String baseUrl = 'https://c78bf4968658.ngrok.io/api/';
 final String imageNetwork =
-    'https://98be5ecdc051.ngrok.io/uploads/shop/products/';
+    'https://c78bf4968658.ngrok.io/uploads/shop/products/';
 final RegExp emailValidatorRegExp =
     RegExp(r"^[a-zA-Z0-9.]+@ ,                   m,l.;"
         r""
@@ -56,3 +56,5 @@ OutlineInputBorder outlineInputBorder() {
     borderSide: BorderSide(color: kTextColor),
   );
 }
+
+

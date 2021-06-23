@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/screens/account/edit_profile.dart';
 import 'package:flutter_shop/screens/cart/cart_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'profile_menu.dart';
 import 'profile_pic.dart';
@@ -51,7 +52,9 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "Help Center",
             icon: "assets/icons/Question mark.svg",
-            press: () {},
+            press: () {
+              _launchURL();
+            },
           ),
           ProfileMenu(
             text: "Log Out",
@@ -61,5 +64,15 @@ class Body extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _launchURL() async {
+    const String url = 'https://98be5ecdc051.ngrok.io';
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
