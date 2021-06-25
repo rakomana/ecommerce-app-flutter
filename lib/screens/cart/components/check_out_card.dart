@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_shop/components/default_button.dart';
+import 'package:flutter_shop/screens/web_view/payment.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -78,7 +79,14 @@ class CheckoutCard extends StatelessWidget {
                   width: getProportionateScreenWidth(190),
                   child: DefaultButton(
                     text: "Check Out",
-                    press: () {},
+                    press: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WikipediaExplorer(),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],

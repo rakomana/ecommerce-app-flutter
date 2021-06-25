@@ -6,6 +6,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'profile_menu.dart';
 import 'profile_pic.dart';
 
+import 'package:flutter_shop/constants.dart';
+
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -67,8 +69,6 @@ class Body extends StatelessWidget {
   }
 
   _launchURL() async {
-    const String url = 'https://98be5ecdc051.ngrok.io';
-
     if (await canLaunch(url)) {
       await launch(url);
     } else {

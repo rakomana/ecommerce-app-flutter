@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_shop/api/products.dart';
+import 'package:flutter_shop/api/cart.dart';
 import 'package:flutter_shop/models/Product.dart';
 
 import '../../../size_config.dart';
@@ -14,8 +14,8 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  Future getProducts() async {
-    var res = await CallApiProduct().cart('products/cart');
+  Future getCart() async {
+    var res = await CallApiCart().cart('products/cart');
     var body = json.decode(res.body);
     var item = body['items'];
     List<Product> demoProducts = [];
@@ -54,7 +54,7 @@ class _BodyState extends State<Body> {
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
       child: FutureBuilder(
-        future: getProducts(),
+        future: getCart(),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
             return Container(

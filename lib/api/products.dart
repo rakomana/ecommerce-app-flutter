@@ -31,16 +31,6 @@ class CallApiProduct {
     );
   }
 
-  cart(apiUrl) async {
-    var fullUrl = baseUrl + apiUrl;
-    await getToken();
-
-    return await http.get(
-      fullUrl,
-      headers: setHeaders(),
-    );
-  }
-
   setHeaders() => {
         'Content-type': 'application/json',
         'Accept': 'application/json',

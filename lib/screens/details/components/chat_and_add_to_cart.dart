@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_shop/api/cart.dart';
+import 'package:flutter_shop/screens/cart/cart_screen.dart';
 
 import '../../../constants.dart';
 
 class ChatAndAddToCart extends StatelessWidget {
-
   const ChatAndAddToCart({Key key}) : super(key: key);
 
   @override
@@ -37,7 +37,7 @@ class ChatAndAddToCart extends StatelessWidget {
           Spacer(),
           FlatButton.icon(
             onPressed: () {
-              _addToCart();
+              _addToCart(context);
             },
             icon: SvgPicture.asset(
               "assets/icons/shopping-bag.svg",
@@ -53,12 +53,29 @@ class ChatAndAddToCart extends StatelessWidget {
     );
   }
 
-  void _addToCart() async {
+  void _addToCart(BuildContext context) async {
     var res = await CallApiCart().cart('product/order/1');
     var body = json.decode(res.body);
 
     if (body['success']) {
       //show notification
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Success'),
+          content: const Text('item added to cart'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Continue shopping'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pushNamed(context, CartScreen.routeName),
+              child: const Text('Go to Cart'),
+            ),
+          ],
+        ),
+      );
     }
   }
 }
