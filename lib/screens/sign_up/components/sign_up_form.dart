@@ -25,7 +25,15 @@ class _SignUpFormState extends State<SignUpForm> {
   String conform_password;
   bool isLoading = true;
   bool remember = false;
+  bool _obscureText = true;
   final List<String> errors = [];
+
+  // Toggles the password show status
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -79,7 +87,6 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   void _handleRegister() async {
-    
     var data = {'name': name, 'email': email, 'password': password};
 
     var res = await CallApi().register(data, 'auth/register');
@@ -97,7 +104,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildConformPassFormField() {
     return TextFormField(
-      obscureText: true,
+      obscureText: _obscureText,
       onSaved: (newValue) => conform_password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -123,14 +130,17 @@ class _SignUpFormState extends State<SignUpForm> {
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
+        suffixIcon: IconButton(
+          onPressed: _toggle,
+          icon: Icon(Icons.lock),
+        ),
       ),
     );
   }
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
-      obscureText: true,
+      obscureText: _obscureText,
       onSaved: (newValue) => password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -156,7 +166,10 @@ class _SignUpFormState extends State<SignUpForm> {
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
+        suffixIcon: IconButton(
+          onPressed: _toggle,
+          icon: Icon(Icons.lock),
+        ),
       ),
     );
   }

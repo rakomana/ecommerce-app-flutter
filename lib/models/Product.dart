@@ -16,7 +16,7 @@ class Product {
     this.rating = 0.0,
   });
 
-  int id;
+  String id;
   String title;
   String description;
   String oldPrice;

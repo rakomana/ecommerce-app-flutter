@@ -1,7 +1,11 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_shop/api/auth.dart';
 import 'dart:async';
+
+import 'package:flutter_shop/constants.dart';
 
 class WikipediaExplorer extends StatefulWidget {
   @override
@@ -11,22 +15,41 @@ class WikipediaExplorer extends StatefulWidget {
 class _WikipediaExplorerState extends State<WikipediaExplorer> {
   Completer<WebViewController> _controller = Completer<WebViewController>();
   final Set<String> _favorites = Set<String>();
+  String _user;
+
+  //as las publicidades desde el api
+  Future getUser() async {
+    var res = await CallApi().getUser('user');
+    var body = json.decode(res.body);
+
+    if (body['success']) {
+      _user = body['user'];
+    }
+
+    return _user;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Wikipedia Explorer'),
+        title: const Text('Trolleyway payment process'),
         // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
         actions: <Widget>[
           NavigationControls(_controller.future),
           Menu(_controller.future, () => _favorites),
         ],
       ),
-      body: WebView(
-        initialUrl: 'https://en.wikipedia.org/wiki/Kraken',
-        onWebViewCreated: (WebViewController webViewController) {
-          _controller.complete(webViewController);
+      body: FutureBuilder(
+        future: getUser(),
+        builder: (context, snapshot) {
+          return WebView(
+            initialUrl: url + 'process/payment/' + snapshot.data,
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webViewController) {
+              _controller.complete(webViewController);
+            },
+          );
         },
       ),
       floatingActionButton: _bookmarkButton(),
@@ -85,15 +108,15 @@ class Menu extends StatelessWidget {
             }
           },
           itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
-                const PopupMenuItem<String>(
-                  value: 'Email link',
-                  child: Text('Email link'),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'See Favorites',
-                  child: Text('See Favorites'),
-                ),
-              ],
+            const PopupMenuItem<String>(
+              value: 'help',
+              child: Text('help'),
+            ),
+            const PopupMenuItem<String>(
+              value: 'sales',
+              child: Text('sales'),
+            ),
+          ],
         );
       },
     );

@@ -23,7 +23,15 @@ class _SignFormState extends State<SignForm> {
   String password;
   bool remember = false;
   bool isLoading = true;
+  bool _obscureText = true;
   final List<String> errors = [];
+
+  // Toggles the password show status
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -115,7 +123,7 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
-      obscureText: true,
+      obscureText: _obscureText,
       onSaved: (newValue) => password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -141,7 +149,10 @@ class _SignFormState extends State<SignForm> {
         // If  you are using latest version of flutter then label text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
+        suffixIcon: IconButton(
+          onPressed: _toggle,
+          icon: Icon(Icons.lock),
+        ),
       ),
     );
   }

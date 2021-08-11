@@ -35,6 +35,7 @@ class CallApi {
 
   getUser(apiUrl) async {
     var fullUrl = baseUrl + apiUrl;
+    await _getToken();
 
     return await http.get(
       fullUrl,

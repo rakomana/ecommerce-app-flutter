@@ -18,7 +18,7 @@ class PopularProducts extends StatelessWidget {
     var body = json.decode(res.body);
     var item = body['items'];
     List<Product> demoProducts = [];
-
+    
     if (body['success']) {
       for (var u in item) {
         Product product = Product(
@@ -42,7 +42,6 @@ class PopularProducts extends StatelessWidget {
         );
         demoProducts.add(product);
       }
-      print(demoProducts.length);
       return demoProducts;
     }
   }
@@ -196,14 +195,10 @@ class PopularProducts extends StatelessWidget {
   checkInternetAccess(BuildContext context) async {
     try {
       final result = await InternetAddress.lookup('example.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-      }
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {}
     } on SocketException catch (_) {
       //display no internet connection dialog
-      print('disconnected');
-      //
-       showMyDialog(context);
+      showMyDialog(context);
     }
   }
 }

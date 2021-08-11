@@ -8,7 +8,8 @@ import 'package:flutter_shop/screens/cart/cart_screen.dart';
 import '../../../constants.dart';
 
 class ChatAndAddToCart extends StatelessWidget {
-  const ChatAndAddToCart({Key key}) : super(key: key);
+  final product;
+  const ChatAndAddToCart({Key key, this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,7 @@ class ChatAndAddToCart extends StatelessWidget {
   }
 
   void _addToCart(BuildContext context) async {
-    var res = await CallApiCart().cart('product/order/1');
+    var res = await CallApiCart().cart('product/order/${product.id}');
     var body = json.decode(res.body);
 
     if (body['success']) {
@@ -70,7 +71,8 @@ class ChatAndAddToCart extends StatelessWidget {
               child: const Text('Continue shopping'),
             ),
             TextButton(
-              onPressed: () => Navigator.pushNamed(context, CartScreen.routeName),
+              onPressed: () =>
+                  Navigator.pushNamed(context, CartScreen.routeName),
               child: const Text('Go to Cart'),
             ),
           ],
