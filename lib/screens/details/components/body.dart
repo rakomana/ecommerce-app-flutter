@@ -24,7 +24,7 @@ class Body extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
               decoration: BoxDecoration(
-                color: kSecondaryColor,
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(50),
                   bottomRight: Radius.circular(50),
@@ -56,7 +56,7 @@ class Body extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                      color: kTextColor,
                     ),
                   ),
                   Padding(
