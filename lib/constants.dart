@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/size_config.dart';
 
-const kPrimaryColor = Color(0xFF157ED2);
+const kPrimaryColor = Color(0xFF666666);
 const kPrimaryLightColor = Color(0xFFFFECDF);
 const kPrimaryGradientColor = LinearGradient(
   begin: Alignment.topLeft,
@@ -26,7 +26,7 @@ const defaultDuration = Duration(milliseconds: 250);
 // Form Error
 final String url = 'https://trolleyway.co.za/';
 final String baseUrl = url + 'api/';
-final String imageNetwork = url + 'uploads/shop/products/';
+final String imageNetwork = 'https://d2uxnwa9lobg48.cloudfront.net/';
 final RegExp emailValidatorRegExp =
     RegExp(r"^[a-zA-Z0-9.]+@ ,                   m,l.;"
         r""

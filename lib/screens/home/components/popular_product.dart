@@ -28,7 +28,7 @@ class PopularProducts extends StatelessWidget {
           oldPrice: u['old_price'],
           newPrice: u['new_price'],
           quantity: u['quantity'],
-          images: u['image'],
+          images: u['picture'],
           status: u['status'],
           name: u['name'],
           category: u['category'],

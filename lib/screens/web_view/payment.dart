@@ -17,7 +17,6 @@ class _WikipediaExplorerState extends State<WikipediaExplorer> {
   final Set<String> _favorites = Set<String>();
   String _user;
 
-  //as las publicidades desde el api
   Future getUser() async {
     var res = await CallApi().getUser('user');
     var body = json.decode(res.body);
@@ -42,14 +41,22 @@ class _WikipediaExplorerState extends State<WikipediaExplorer> {
       ),
       body: FutureBuilder(
         future: getUser(),
-        builder: (context, snapshot) {
-          return WebView(
-            initialUrl: url + 'process/payment/' + snapshot.data,
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webViewController) {
-              _controller.complete(webViewController);
-            },
-          );
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return WebView(
+              initialUrl: url + 'process/payment/' + snapshot.data,
+              javascriptMode: JavascriptMode.unrestricted,
+              onWebViewCreated: (WebViewController webViewController) {
+                _controller.complete(webViewController);
+              },
+            );
+          } else {
+            return Container(
+              child: Center(
+                child: Text('Loading...'),
+              ),
+            );
+          }
         },
       ),
       floatingActionButton: _bookmarkButton(),

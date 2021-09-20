@@ -4,7 +4,6 @@ import 'package:flutter_shop/api/cart.dart';
 import 'package:flutter_shop/models/Product.dart';
 
 import '../../../size_config.dart';
-//import 'cart_card.dart';
 import '../../../constants.dart';
 import 'dart:convert';
 
@@ -29,7 +28,7 @@ class _BodyState extends State<Body> {
           oldPrice: u['old_price'],
           newPrice: u['new_price'],
           quantity: u['quantity'],
-          images: u['image'],
+          images: u['picture'],
           status: u['status'],
           name: u['name'],
           category: u['category'],
@@ -106,8 +105,9 @@ class _BodyState extends State<Body> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 20),
-                        Column(
+                        SizedBox(width: 40),
+                        Expanded(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -123,16 +123,10 @@ class _BodyState extends State<Body> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: kPrimaryColor),
-                                children: [
-                                  TextSpan(
-                                      text: " x${0}",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1),
-                                ],
                               ),
                             )
                           ],
+                        ),
                         )
                       ],
                     ),

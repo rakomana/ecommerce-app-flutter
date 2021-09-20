@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'package:flutter_shop/api/account.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/helper/keyboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_shop/screens/account/edit_profile.dart';
+import 'package:flutter_shop/screens/sign_in/sign_in_screen.dart';
 import 'package:flutter_shop/screens/cart/cart_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -41,16 +46,16 @@ class Body extends StatelessWidget {
               )
             },
           ),
-          ProfileMenu(
-            text: "Notifications",
-            icon: "assets/icons/Bell.svg",
-            press: () {},
-          ),
-          ProfileMenu(
-            text: "Settings",
-            icon: "assets/icons/Settings.svg",
-            press: () {},
-          ),
+          // ProfileMenu(
+          //   text: "Notifications",
+          //   icon: "assets/icons/Bell.svg",
+          //   press: () {},
+          // ),
+          // // ProfileMenu(
+          // //   text: "Settings",
+          // //   icon: "assets/icons/Settings.svg",
+          // //   press: () {},
+          // // ),
           ProfileMenu(
             text: "Help Center",
             icon: "assets/icons/Question mark.svg",
@@ -61,11 +66,27 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "Log Out",
             icon: "assets/icons/Log out.svg",
-            press: () {},
+            press: () {
+              _handleLogout(context);
+            },
           ),
         ],
       ),
     );
+  }
+
+  void _handleLogout(context) async {
+
+    var res = await CallApiAccount().logout('logout');
+    var body = json.decode(res.body);
+
+    if (body['success']) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      await localStorage.clear();
+
+      KeyboardUtil.hideKeyboard(context);
+      Navigator.pushNamed(context, SignInScreen.routeName);
+    }
   }
 
   _launchURL() async {

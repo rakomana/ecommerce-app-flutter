@@ -31,7 +31,7 @@ class HomeHeader extends StatelessWidget {
           oldPrice: u['old_price'],
           newPrice: u['new_price'],
           quantity: u['quantity'],
-          images: u['image'],
+          images: u['picture'],
           status: u['status'],
           name: u['name'],
           category: u['category'],
@@ -58,24 +58,20 @@ class HomeHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SearchField(),
-          IconBtnWithCounter(
-            svgSrc: "assets/icons/Cart Icon.svg",
-            press: () => Navigator.pushNamed(context, CartScreen.routeName),
-          ),
           FutureBuilder(
               future: getCountCart(context),
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
                   return IconBtnWithCounter(
-                    svgSrc: "assets/icons/Bell.svg",
+                    svgSrc: "assets/icons/Cart Icon.svg",
                     numOfitem: 0,
-                    press: () {},
+                    press: () => Navigator.pushNamed(context, CartScreen.routeName),
                   );
                 } else {
                   return IconBtnWithCounter(
-                    svgSrc: "assets/icons/Bell.svg",
+                    svgSrc: "assets/icons/Cart Icon.svg",
                     numOfitem: snapshot.data.length,
-                    press: () {},
+                    press: () => Navigator.pushNamed(context, CartScreen.routeName),
                   );
                 }
               }),

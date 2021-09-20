@@ -99,7 +99,33 @@ class _SignUpFormState extends State<SignUpForm> {
 
       KeyboardUtil.hideKeyboard(context);
       Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+    } else {
+      setState(() {
+        isLoading = true;
+      });
+      showMyDialog(context);
     }
+  }
+
+  void showMyDialog(BuildContext context) {
+    showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: const Text(
+            'Something went wrong',
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   TextFormField buildConformPassFormField() {

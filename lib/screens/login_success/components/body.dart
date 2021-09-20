@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shop/components/default_button.dart';
 import 'package:flutter_shop/screens/home/home_screen.dart';
 import 'package:flutter_shop/size_config.dart';
-//import 'package:flutter_shop/api/products.dart';
-//import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatelessWidget {
   @override

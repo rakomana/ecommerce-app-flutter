@@ -1,5 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/auth.dart';
 import 'package:flutter_shop/constants.dart';
+import 'package:flutter_shop/helper/keyboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_shop/screens/home/home_screen.dart';
 import 'package:flutter_shop/screens/sign_in/sign_in_screen.dart';
 import 'package:flutter_shop/size_config.dart';
 
@@ -21,7 +26,7 @@ class _BodyState extends State<Body> {
     },
     {
       "text":
-          "We help people connect with store \naround United State of America",
+          "Crazy Prizes around Gauteng",
       "image": "assets/images/splash_2.png"
     },
     {
@@ -29,6 +34,12 @@ class _BodyState extends State<Body> {
       "image": "assets/images/splash_3.png"
     },
   ];
+  @override
+  void initState() {
+    super.initState();
+    _checkAuth(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -82,6 +93,20 @@ class _BodyState extends State<Body> {
         ),
       ),
     );
+  }
+
+  void _checkAuth(context) async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+
+    var res = await CallApi().getUser('user');
+    var body = json.decode(res.body);
+
+    if (localStorage.getString('token') != null) {
+      if(body['success']) {
+        KeyboardUtil.hideKeyboard(context);
+        Navigator.pushNamed(context, HomeScreen.routeName);
+      }
+    }
   }
 
   AnimatedContainer buildDot({int index}) {

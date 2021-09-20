@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_shop/api/cart.dart';
+import 'package:flutter_shop/screens/home/home_screen.dart';
 import 'package:flutter_shop/screens/cart/cart_screen.dart';
 
 import '../../../constants.dart';
@@ -59,7 +60,7 @@ class ChatAndAddToCart extends StatelessWidget {
     var body = json.decode(res.body);
 
     if (body['success']) {
-      //show notification
+      //show success notification
       showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -67,12 +68,32 @@ class ChatAndAddToCart extends StatelessWidget {
           content: const Text('item added to cart'),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
+              onPressed: () => Navigator.pushNamed(context, HomeScreen.routeName),
               child: const Text('Continue shopping'),
             ),
             TextButton(
               onPressed: () =>
                   Navigator.pushNamed(context, CartScreen.routeName),
+              child: const Text('Go to Cart'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      //show success notification
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Warning'),
+          content: const Text('Something went wrong'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pushNamed(context, HomeScreen.routeName),
+              child: const Text('Continue shopping'),
+            ),
+            TextButton(
+              onPressed: () =>
+                  Navigator.pop(context, 'Ok'),
               child: const Text('Go to Cart'),
             ),
           ],

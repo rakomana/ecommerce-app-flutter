@@ -34,6 +34,16 @@ class CallApiAccount {
     );
   }
 
+  logout(apiUrl) async {
+    var fullUrl = baseUrl + apiUrl;
+    await getToken();
+
+    return await http.post(
+      fullUrl,
+      headers: setHeaders(),
+    );
+  }
+
   setHeaders() => {
         'Content-type': 'application/json',
         'Accept': 'application/json',

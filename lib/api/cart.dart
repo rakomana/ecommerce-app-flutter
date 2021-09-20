@@ -21,7 +21,7 @@ class CallApiCart {
     );
   }
 
-    getCart(apiUrl) async {
+  getCart(apiUrl) async {
     var fullUrl = baseUrl + apiUrl;
     await getToken();
 

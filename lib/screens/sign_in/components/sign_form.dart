@@ -118,7 +118,33 @@ class _SignFormState extends State<SignForm> {
 
       KeyboardUtil.hideKeyboard(context);
       Navigator.pushNamed(context, OtpScreen.routeName);
+    } else {
+      setState(() {
+        isLoading = true;
+      });
+      showMyDialog(context);
     }
+  }
+
+    void showMyDialog(BuildContext context) {
+    showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: const Text(
+            'check your credentials',
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   TextFormField buildPasswordFormField() {

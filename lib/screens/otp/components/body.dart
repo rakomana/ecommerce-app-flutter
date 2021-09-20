@@ -48,10 +48,10 @@ class Body extends StatelessWidget {
       children: [
         Text("This code will expired in "),
         TweenAnimationBuilder(
-          tween: Tween(begin: 30.0, end: 0.0),
-          duration: Duration(seconds: 30),
+          tween: Tween(begin: 10000.0, end: 0.0),
+          duration: Duration(seconds: 10000),
           builder: (_, value, child) => Text(
-            "00:${value.toInt()}",
+            "${value.toInt()}",
             style: TextStyle(color: kPrimaryColor),
           ),
         ),

@@ -140,7 +140,6 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
     var res =
         await CallApiForgotPassword().forgotPassword(data, 'password/email');
     var body = json.decode(res.body);
-    print(body);
 
     if (body['message'] == 'passwords.sent') {
       showDialog<String>(
@@ -154,7 +153,28 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () => Navigator.pushNamed(context, SignInScreen.routeName),
+              onPressed: () =>
+                  Navigator.pushNamed(context, SignInScreen.routeName),
+              child: const Text('Go to Login'),
+            ),
+          ],
+        ),
+      );
+
+      KeyboardUtil.hideKeyboard(context);
+    } else {
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Warning'),
+          content: const Text('Something went wrong'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Ok'),
               child: const Text('Go to Login'),
             ),
           ],

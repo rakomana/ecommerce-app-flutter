@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/api/cart.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_shop/components/default_button.dart';
 import 'package:flutter_shop/screens/web_view/payment.dart';
@@ -10,6 +12,19 @@ class CheckoutCard extends StatelessWidget {
   const CheckoutCard({
     Key key,
   }) : super(key: key);
+
+  //get total amount from cart
+  Future getCartTotal() async {
+    var _sum;
+    var res = await CallApiCart().cart('products/cart');
+    var body = json.decode(res.body);
+
+    if (body['success']) {
+      _sum = body['sum'];
+    }
+
+    return _sum;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +79,20 @@ class CheckoutCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text.rich(
-                  TextSpan(
-                    text: "Total:\n",
-                    children: [
-                      TextSpan(
-                        text: "\R337.15",
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                      ),
-                    ],
+                Flexible(
+                  child: FutureBuilder(
+                    future: getCartTotal(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(
+                          "Total:\n"
+                          "\R" + snapshot.data.toString(),
+                          style: TextStyle(fontSize: 16, color: Colors.black),
+                        );
+                      } else {
+                        return Text('Loading...');
+                      }
+                    },
                   ),
                 ),
                 SizedBox(
@@ -90,7 +110,7 @@ class CheckoutCard extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
+            )
           ],
         ),
       ),
