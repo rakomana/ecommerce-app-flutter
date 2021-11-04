@@ -5,11 +5,14 @@ import 'package:flutter_shop/enums.dart';
 import 'components/body.dart';
 
 class HomeScreen extends StatelessWidget {
+  HomeScreen(this.value);
+
+  final String value;
   static String routeName = "/home";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Body(),
+      body: Body(value),
       bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.home),
     );
   }

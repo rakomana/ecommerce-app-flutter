@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/screens/home/home_screen.dart';
 
 import '../../../size_config.dart';
 
@@ -25,7 +26,16 @@ class SectionTitle extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: press,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(
+                  'Nil',
+                ),
+              ),
+            );
+          },
           child: Text(
             "See More",
             style: TextStyle(color: Color(0xFFBBBBBB)),

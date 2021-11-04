@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_shop/screens/home/home_screen.dart';
 
 import '../../../size_config.dart';
 
@@ -7,11 +8,31 @@ class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> categories = [
-      {"icon": "assets/icons/Flash Icon.svg", "text": "Electronics"},
-      {"icon": "assets/icons/Bill Icon.svg", "text": "Clothing"},
-      {"icon": "assets/icons/Game Icon.svg", "text": "Gaming"},
-      {"icon": "assets/icons/Gift Icon.svg", "text": "Furniture"},
-      {"icon": "assets/icons/Discover.svg", "text": "Beauty"},
+      {
+        "icon": "assets/icons/Flash Icon.svg",
+        "text": "Electronics",
+        "press": "electronics"
+      },
+      {
+        "icon": "assets/icons/Bill Icon.svg",
+        "text": "Clothing",
+        "press": "clothing"
+      },
+      {
+        "icon": "assets/icons/Game Icon.svg",
+        "text": "Gaming",
+        "press": "gaming"
+      },
+      {
+        "icon": "assets/icons/Gift Icon.svg",
+        "text": "Furniture",
+        "press": "furniture"
+      },
+      {
+        "icon": "assets/icons/Discover.svg",
+        "text": "Beauty",
+        "press": "beauty"
+      },
     ];
     return Padding(
       padding: EdgeInsets.all(getProportionateScreenWidth(20)),
@@ -23,7 +44,16 @@ class Categories extends StatelessWidget {
           (index) => CategoryCard(
             icon: categories[index]["icon"],
             text: categories[index]["text"],
-            press: () {},
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomeScreen(
+                    categories[index]["press"],
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -61,7 +91,11 @@ class CategoryCard extends StatelessWidget {
               child: SvgPicture.asset(icon),
             ),
             SizedBox(height: 5),
-            Text(text, textAlign: TextAlign.center, style: TextStyle(fontSize: 10),)
+            Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 10),
+            )
           ],
         ),
       ),

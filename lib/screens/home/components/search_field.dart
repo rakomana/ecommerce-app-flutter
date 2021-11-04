@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/screens/home/home_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class SearchField extends StatelessWidget {
-  const SearchField({
-    Key key,
-  }) : super(key: key);
+  final nameController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,8 @@ class SearchField extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextField(
-        onChanged: (value) => print(value),
+        //onChanged: (value) => print(value),
+        controller: nameController,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
                 horizontal: getProportionateScreenWidth(20),
@@ -26,7 +26,23 @@ class SearchField extends StatelessWidget {
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,
             hintText: "Search product",
-            prefixIcon: Icon(Icons.search)),
+            prefixIcon: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  _handleSearch(context);
+                })),
+      ),
+    );
+  }
+
+  void _handleSearch(BuildContext context) {
+    print(nameController.text);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(
+          nameController.text,
+        ),
       ),
     );
   }

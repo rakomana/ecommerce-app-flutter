@@ -7,6 +7,9 @@ import 'home_header.dart';
 import 'popular_product.dart';
 
 class Body extends StatelessWidget {
+  Body(this.value);
+
+  final String value;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -19,7 +22,7 @@ class Body extends StatelessWidget {
             DiscountBanner(),
             Categories(),
             SizedBox(height: getProportionateScreenWidth(30)),
-            PopularProducts(),
+            PopularProducts(value),
             SizedBox(height: getProportionateScreenWidth(30)),
           ],
         ),
