@@ -14,6 +14,7 @@ class Product {
     this.category,
     this.colors,
     this.rating = 0.0,
+    this.pivot,
   });
 
   String id;
@@ -28,5 +29,5 @@ class Product {
   String category;
   final double rating;
   final List<Color> colors;
+  String pivot;
 }
-

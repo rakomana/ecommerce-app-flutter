@@ -1,16 +1,12 @@
-import 'dart:convert';
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/api/auth.dart';
 import 'package:flutter_shop/constants.dart';
-import 'package:flutter_shop/helper/keyboard.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_shop/screens/home/home_screen.dart';
-import 'package:flutter_shop/screens/sign_in/sign_in_screen.dart';
+//import 'package:flutter_shop/screens/sign_in/sign_in_screen.dart';
 import 'package:flutter_shop/size_config.dart';
 
 // This is the best practice
 import '../components/splash_content.dart';
-import '../../../components/default_button.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -37,7 +33,7 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-    _checkAuth(context);
+    startTime();
   }
 
   @override
@@ -77,14 +73,6 @@ class _BodyState extends State<Body> {
                         (index) => buildDot(index: index),
                       ),
                     ),
-                    Spacer(flex: 3),
-                    DefaultButton(
-                      text: "Continue",
-                      press: () {
-                        Navigator.pushNamed(context, SignInScreen.routeName);
-                      },
-                    ),
-                    Spacer(),
                   ],
                 ),
               ),
@@ -93,20 +81,6 @@ class _BodyState extends State<Body> {
         ),
       ),
     );
-  }
-
-  void _checkAuth(context) async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-
-    var res = await CallApi().getUser('user');
-    var body = json.decode(res.body);
-
-    if (localStorage.getString('token') != null) {
-      if(body['success']) {
-        KeyboardUtil.hideKeyboard(context);
-        Navigator.pushNamed(context, HomeScreen.routeName);
-      }
-    }
   }
 
   AnimatedContainer buildDot({int index}) {
@@ -120,5 +94,14 @@ class _BodyState extends State<Body> {
         borderRadius: BorderRadius.circular(3),
       ),
     );
+  }
+
+  startTime() async {
+    var duration = new Duration(seconds: 6);
+    return new Timer(duration, route);
+  }
+
+  route() {
+    Navigator.pushNamed(context, HomeScreen.routeName); 
   }
 }

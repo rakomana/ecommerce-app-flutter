@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Trolleyway',
       theme: theme(),
       // home: SplashScreen(),
       // We use routeName so that we dont need to remember the name

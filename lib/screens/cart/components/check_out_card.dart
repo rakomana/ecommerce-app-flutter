@@ -16,7 +16,7 @@ class CheckoutCard extends StatelessWidget {
   //get total amount from cart
   Future getCartTotal() async {
     var _sum;
-    var res = await CallApiCart().cart('products/cart');
+    var res = await CallApiCart().cart('cart');
     var body = json.decode(res.body);
 
     if (body['success']) {

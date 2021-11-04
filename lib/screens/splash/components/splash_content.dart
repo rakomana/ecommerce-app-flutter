@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SplashContent extends StatelessWidget {
   const SplashContent({
@@ -29,6 +30,10 @@ class SplashContent extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         Spacer(flex: 2),
+        SpinKitCubeGrid(
+          color: kPrimaryColor,
+          size: 80.0,
+        ),
       ],
     );
   }

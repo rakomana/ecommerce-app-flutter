@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/helper/keyboard.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_shop/screens/login_success/login_success_screen.dart';
+import 'package:flutter_shop/screens/sign_in/sign_in_screen.dart';
 import 'package:flutter_shop/components/custom_surfix_icon.dart';
 import 'package:flutter_shop/components/default_button.dart';
 import 'package:flutter_shop/components/form_error.dart';
@@ -93,12 +92,9 @@ class _SignUpFormState extends State<SignUpForm> {
     var body = json.decode(res.body);
 
     if (body['success']) {
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.setString('token', body['jwtToken']);
-      localStorage.setString('user', json.encode(body['user']));
 
       KeyboardUtil.hideKeyboard(context);
-      Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+      Navigator.pushNamed(context, SignInScreen.routeName);
     } else {
       setState(() {
         isLoading = true;

@@ -6,7 +6,7 @@ import 'package:flutter_shop/components/form_error.dart';
 import 'package:flutter_shop/helper/keyboard.dart';
 import 'package:flutter_shop/api/auth.dart';
 import 'package:flutter_shop/screens/forgot_password/forgot_password_screen.dart';
-import 'package:flutter_shop/screens/otp/otp_screen.dart';
+import 'package:flutter_shop/screens/home/home_screen.dart';
 
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
@@ -117,7 +117,7 @@ class _SignFormState extends State<SignForm> {
       localStorage.setString('token', token);
 
       KeyboardUtil.hideKeyboard(context);
-      Navigator.pushNamed(context, OtpScreen.routeName);
+      Navigator.pushNamed(context, HomeScreen.routeName);
     } else {
       setState(() {
         isLoading = true;

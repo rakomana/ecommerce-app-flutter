@@ -17,7 +17,7 @@ class HomeHeader extends StatelessWidget {
   Future getCountCart(BuildContext context) async {
     await checkInternetAccess(context);
 
-    var res = await CallApiCart().cart('products/cart');
+    var res = await CallApiCart().cart('cart');
     var body = json.decode(res.body);
     var item = body['items'];
     List<Product> demoProducts = [];
@@ -67,7 +67,8 @@ class HomeHeader extends StatelessWidget {
                     numOfitem: 0,
                     press: () => Navigator.pushNamed(context, CartScreen.routeName),
                   );
-                } else {
+                }
+                else {
                   return IconBtnWithCounter(
                     svgSrc: "assets/icons/Cart Icon.svg",
                     numOfitem: snapshot.data.length,
