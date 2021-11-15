@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_shop/api/cart.dart';
 import 'package:flutter_shop/models/Product.dart';
+import 'package:flutter_shop/screens/home/home_screen.dart';
 import 'package:flutter_shop/screens/sign_in/sign_in_screen.dart';
 
 import '../../../size_config.dart';
@@ -20,7 +21,7 @@ class _BodyState extends State<Body> {
     var item = body['items'];
     List<Product> demoProducts = [];
 
-    if (body['success'] == 'true') {
+    if (body['success'] == true) {
       for (var u in item) {
         Map relation = u['pivot'];
         Product product = Product(
@@ -47,12 +48,31 @@ class _BodyState extends State<Body> {
       }
       print(demoProducts.length);
       return demoProducts;
-    } 
-    else {
-        Navigator.pushNamed(context, SignInScreen.routeName);
+    } else if (body['success'] == false) {
+      //show success notification
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Cart'),
+          content: const Text('Oops!, your trolley is empty'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, HomeScreen.routeName),
+              child: const Text('Continue shopping'),
+            ),
+            TextButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, HomeScreen.routeName),
+              child: const Text('Trolleyway Deals'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      Navigator.pushNamed(context, SignInScreen.routeName);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +89,7 @@ class _BodyState extends State<Body> {
               ),
             );
           } else
-          return Row(
+            return Row(
               children: [
                 Expanded(
                   child: ListView.builder(
@@ -127,13 +147,15 @@ class _BodyState extends State<Body> {
                                   SizedBox(height: 10),
                                   Text.rich(
                                     TextSpan(
-                                      text: "\R${snapshot.data[index].newPrice}",
+                                      text:
+                                          "\R${snapshot.data[index].newPrice}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           color: kPrimaryColor),
                                       children: [
                                         TextSpan(
-                                            text: " x${snapshot.data[index].pivot}",
+                                            text:
+                                                " x${snapshot.data[index].pivot}",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText1),

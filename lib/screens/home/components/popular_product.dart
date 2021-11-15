@@ -53,12 +53,14 @@ class PopularProducts extends StatelessWidget {
       if (value == 'Nil') {
         products = rawProducts;
       } else {
-        products = rawProducts.where((element) => element.category == value).toList();
+        products =
+            rawProducts.where((element) => element.category == value).toList();
 
-        if(products.isEmpty)
-        {
-          products = rawProducts.where((element) => element.title.toLowerCase().contains(value.toLowerCase())
-        ).toList();
+        if (products.isEmpty) {
+          products = rawProducts
+              .where((element) =>
+                  element.title.toLowerCase().contains(value.toLowerCase()))
+              .toList();
         }
       }
 
@@ -178,9 +180,23 @@ class PopularProducts extends StatelessWidget {
                                     ),
                                   ),
                                 SizedBox(height: 8),
-                                Text('\R${snapshot.data[index].newPrice}',
-                                    style: TextStyle(
-                                        fontSize: 32, fontFamily: 'avenir')),
+                                Text.rich(
+                                  TextSpan(
+                                    children: <TextSpan>[
+                                      new TextSpan(
+                                        text: '\R${snapshot.data[index].oldPrice}',
+                                        style: new TextStyle(
+                                          color: Colors.grey,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                        ),
+                                      ),
+                                      new TextSpan(
+                                        text: ' \R${snapshot.data[index].newPrice}',
+                                      ),
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           ),

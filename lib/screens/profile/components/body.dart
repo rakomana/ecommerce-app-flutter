@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:flutter_shop/api/account.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/helper/keyboard.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_shop/screens/account/edit_profile.dart';
-import 'package:flutter_shop/screens/sign_in/sign_in_screen.dart';
-import 'package:flutter_shop/screens/cart/cart_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_shop/screens/home/home_screen.dart';
+import 'package:flutter_shop/screens/cart/cart_screen.dart';
+import 'package:flutter_shop/screens/account/edit_profile.dart';
 
 import 'profile_menu.dart';
 import 'profile_pic.dart';
@@ -75,7 +75,7 @@ class Body extends StatelessWidget {
       await localStorage.clear();
 
       KeyboardUtil.hideKeyboard(context);
-      Navigator.pushNamed(context, SignInScreen.routeName);
+      Navigator.pushNamed(context, HomeScreen.routeName);
     }
   }
 

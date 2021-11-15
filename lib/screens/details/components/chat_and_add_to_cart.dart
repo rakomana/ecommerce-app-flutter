@@ -92,7 +92,7 @@ class ChatAndAddToCart extends StatelessWidget {
     var res = await CallApiCart().cart('product/order/${product.id}/$_counter');
     var body = json.decode(res.body);
 
-    if (body['success'] == 'true') {
+    if (body['success'] == true) {
       //show success notification
       showDialog<String>(
         context: context,
@@ -118,7 +118,7 @@ class ChatAndAddToCart extends StatelessWidget {
       var res = await CallApi().getUser('user');
     var body = json.decode(res.body);
 
-    if (body['success'] == 'true') {
+    if (body['success'] == true) {
       //show error notification
       showDialog<String>(
         context: context,
