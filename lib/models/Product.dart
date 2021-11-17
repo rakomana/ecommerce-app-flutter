@@ -15,6 +15,7 @@ class Product {
     this.colors,
     this.rating = 0.0,
     this.pivot,
+    this.pictures
   });
 
   String id;
@@ -29,5 +30,6 @@ class Product {
   String category;
   final double rating;
   final List<Color> colors;
+  final List<String> pictures;
   String pivot;
 }

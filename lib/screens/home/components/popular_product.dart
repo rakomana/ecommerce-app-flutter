@@ -43,7 +43,8 @@ class PopularProducts extends StatelessWidget {
             Color(0xFFDECB9C),
             Colors.white,
           ],
-          rating: 4.8,
+          rating: 5,
+          pictures: u['images'].split(','),
         );
 
         //add products to the list

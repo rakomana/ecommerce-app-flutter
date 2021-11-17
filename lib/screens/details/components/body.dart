@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/constants.dart';
+import 'package:flutter_shop/size_config.dart';
 
 import 'chat_and_add_to_cart.dart';
 import 'list_of_colors.dart';
@@ -40,9 +41,19 @@ class Body extends StatelessWidget {
                         size: size,
                         image: imageNetwork + product.images,
                       ),
+                      // end to remove
                     ),
                   ),
-                  ListOfColors(),
+                  // to remove
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ...List.generate(
+                        product.pictures.length,
+                        (index) => buildSmallReview(index),
+                      ),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: kDefaultPadding / 2),
@@ -75,6 +86,20 @@ class Body extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Container buildSmallReview(int index) {
+    return Container(
+      margin: EdgeInsets.only(right: getProportionateScreenWidth(15)),
+      padding: EdgeInsets.all(getProportionateScreenHeight(8)),
+      height: getProportionateScreenWidth(48),
+      width: getProportionateScreenWidth(48),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all()),
+      child: Image.network(imageNetwork + product.pictures[index]),
     );
   }
 }
